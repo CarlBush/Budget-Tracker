@@ -20,7 +20,8 @@ const FILES_TO_CACHE = [
 self.addEventListener("install", function (e) {
     e.waitUntil(
         caches.open(CACHE_NAME).then(function (cache) {
-            return cache.andAll(FILES_TO_CACHE);
+            console.log("Installing cache");
+            return cache.addAll(FILES_TO_CACHE);
         })
     );
 });
@@ -36,6 +37,7 @@ self.addEventListener("activate", function (e) {
             return Promise.all(
                 keyList.map(function (key, i) {
                     if (cacheKeepList.indexOf(key) === -1) {
+                        console.log("Deleting cache");
                         return caches.delete(keyList[i]);
                     }
                 })
